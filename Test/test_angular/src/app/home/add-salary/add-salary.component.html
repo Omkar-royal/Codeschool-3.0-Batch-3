@@ -1,0 +1,333 @@
+<div class="container">
+	<div class="row justify-content-center align-items-center pt-lg-5 pt-2">
+		<div
+			class="col-12 col-lg-6 col-md-10 justify-content-center align-items-center"
+		>
+			<form [formGroup]="form">
+				<div
+					class="d-flex flex-column justify-content-center card px-lg-5 px-3 py-3"
+				>
+					<h3 class="fs-4 fw-bold mb-4">
+						<span class="heading">Add</span> employee salary details
+					</h3>
+
+					<div class="mb-3">
+						<label for="" class="mb-2">Select employee:</label>
+						<select
+							name="employee"
+							class="form-select"
+							id="employee"
+							formControlName="employee_id"
+							required
+						>
+							<option value="0" selected disabled>
+								Select an employee...
+							</option>
+							@for(employee of employees;track $index){
+							<option [value]="employee.id">
+								{{ employee.fullname }}
+							</option>
+							}
+						</select>
+						<span
+							class="text-danger"
+							*ngIf="
+								validate.isFieldInvalid(
+									'employee_id',
+									form,
+									isFormSubmitted
+								)
+							"
+						>
+							{{
+								validate.getErrorMessage(
+									form,
+									"employee_id",
+									"Employee "
+								)
+							}}
+						</span>
+					</div>
+					<div class="d-flex flex-column">
+						<div>
+							<div class="form-floating mb-3">
+								<input
+									type="text"
+									class="form-control"
+									id="basic_salary"
+									placeholder="Enter basic salary"
+									formControlName="base_salary"
+									required
+								/>
+								<label for="basic_salary">Basic Salary </label>
+							</div>
+							<span
+								class="text-danger"
+								*ngIf="
+									validate.isFieldInvalid(
+										'base_salary',
+										form,
+										isFormSubmitted
+									)
+								"
+							>
+								{{
+									validate.getErrorMessage(
+										form,
+										"base_salary",
+										"Salary"
+									)
+								}}
+							</span>
+						</div>
+
+						<h6 class="fs-6 fw-bold">Add Earnings:</h6>
+						<form [formGroup]="earningsForm">
+							<label for="" class="">Select earning type:</label>
+							<div
+								class="d-flex mb-2 flex-wrap gap-3 justify-content-lg-evenly justify-content-start align-items-baseline"
+							>
+								<div>
+									<select
+										name="earnings"
+										class="form-select"
+										id="earnings"
+										formControlName="earning_id"
+										required
+									>
+										<option value="0" selected disabled>
+											Select earnings type
+										</option>
+										@for(earning of selectEarningTypes;track
+										$index) {
+										<option [value]="earning.id">
+											{{ earning.earning_type }}
+										</option>
+										}
+									</select>
+									<span
+										class="text-danger"
+										*ngIf="
+											validate.isFieldInvalid(
+												'earning_id',
+												earningsForm,
+												isFormSubmitted
+											)
+										"
+									>
+										{{
+											validate.getErrorMessage(
+												earningsForm,
+												"earning_id",
+												"Earning type"
+											)
+										}}
+									</span>
+									<span class="text-danger">{{
+										earningTypeError
+									}}</span>
+								</div>
+								<div>
+									<div class="form-floating mb-1">
+										<input
+											type="text"
+											class="form-control"
+											id="amount"
+											placeholder="Amount of earning"
+											formControlName="amount"
+											required
+										/>
+										<label for="amount"
+											>Amount of earning</label
+										>
+									</div>
+									<span
+										class="text-danger"
+										*ngIf="
+											validate.isFieldInvalid(
+												'amount',
+												earningsForm,
+												isFormSubmitted
+											)
+										"
+									>
+										{{
+											validate.getErrorMessage(
+												earningsForm,
+												"amount",
+												"Amount "
+											)
+										}}
+									</span>
+								</div>
+
+								<div class="mb-3">
+									<button
+										class="btn btn-success"
+										(click)="addEarnings()"
+									>
+										Add
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div>
+						@for(earning of earnings;track $index){
+						<tr>
+							@if(earning.earning_id==1){
+							<td>Overtime Pay :</td>
+							} @if (earning.earning_id==2) {
+							<td>Bonus :</td>
+							} @if (earning.earning_id==3) {
+							<td>Allowances :</td>
+							}
+							<td>{{ earning.amount }}</td>
+						</tr>
+						} @empty {}
+						<h6 class="fs-6 fw-bold">
+							Total earning :
+							<span
+								>₹
+								{{
+									form.get("total_earnings")?.value || 0
+								}}</span
+							>
+						</h6>
+					</div>
+
+					<h6 class="fs-6 fw-bold">Add Deductions:</h6>
+					<form [formGroup]="deductionForm">
+						<label for="" class="">Select deduction type:</label>
+
+						<div
+							class="d-flex flex-wrap gap-3 mb-2 justify-content-lg-evenly justify-content-start align-items-baseline"
+						>
+							<div>
+								<select
+									name="earnings"
+									class="form-select"
+									id="deduction_id"
+									formControlName="deduction_id"
+								>
+									<option value="0" selected disabled>
+										Select deductions type
+									</option>
+									@for(deduction of selectDeductionTypes;track
+									$index) {
+									<option [value]="deduction.id">
+										{{ deduction.deduction_type }}
+									</option>
+									}
+								</select>
+								<span
+									class="text-danger"
+									*ngIf="
+										validate.isFieldInvalid(
+											'deduction_id',
+											deductionForm,
+											isFormSubmitted
+										)
+									"
+								>
+									{{
+										validate.getErrorMessage(
+											deductionForm,
+											"deduction_id",
+											"Deduction type"
+										)
+									}}
+								</span>
+								<span class="text-danger">{{
+									deductionTypeError
+								}}</span>
+							</div>
+							<div>
+								<div class="form-floating mb-2">
+									<input
+										type="text"
+										class="form-control"
+										id="amount"
+										placeholder="Amount of earning"
+										formControlName="amount"
+									/>
+									<label for="amount"
+										>Amount of deduction</label
+									>
+								</div>
+								<span
+									class="text-danger"
+									*ngIf="
+										validate.isFieldInvalid(
+											'amount',
+											deductionForm,
+											isFormSubmitted
+										)
+									"
+								>
+									{{
+										validate.getErrorMessage(
+											deductionForm,
+											"amount",
+											"Amount of deduction"
+										)
+									}}
+								</span>
+							</div>
+
+							<div class="mb-3">
+								<button
+									class="btn btn-success"
+									(click)="addDeduction()"
+								>
+									Add
+								</button>
+							</div>
+						</div>
+					</form>
+					<div>
+						@for(deduction of deductions;track $index){
+						<tr>
+							@if(deduction.deduction_id==1){
+							<td>Income Tax :</td>
+							} @else if (deduction.deduction_id==2) {
+							<td>Security Tax :</td>
+							} @else if (deduction.deduction_id==3) {
+							<td>Health Insurance Premiums :</td>
+							} @else if (deduction.deduction_id==4) {
+							<td>Provident Fund :</td>
+							} @else if (deduction.deduction_id==5) {
+							<td>Loan Repayments :</td>
+							}
+							<td>₹{{ deduction.amount }}</td>
+						</tr>
+						} @empty {}
+						<h6 class="fs-6 fw-bold">
+							Total deductions :
+							<span
+								>₹{{
+									form.get("total_deductions")?.value || 0
+								}}</span
+							>
+						</h6>
+					</div>
+					<div>
+						<h6 class="fs-6 fw-bold">
+							Total net salary :
+							<span
+								>₹{{
+									this.form.get("net_salary")?.value || 0
+								}}</span
+							>
+						</h6>
+					</div>
+					<div>
+						<button class="btn btn-success" (click)="addSalary()">
+							Submit
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

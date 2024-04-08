@@ -1,0 +1,10 @@
+img {
+	height: 250px;
+	width: 250px;
+}
+.heading {
+	border-bottom: solid 5px #1235e6;
+	border-bottom-left-radius: 10px;
+	/* background-color: #0069d93f; */
+	width: max-content;
+}

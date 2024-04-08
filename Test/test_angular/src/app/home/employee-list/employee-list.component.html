@@ -1,0 +1,157 @@
+@if(!loader){
+<div
+	class="position-absolute loader vh-100 d-flex justify-content-center align-items-center top-0 bottom-0 start-0 end-0"
+>
+	<div class="spinner-border text-primary" role="status">
+		<span class="visually-hidden">Loading...</span>
+	</div>
+</div>
+} @else{
+<div class="container pt-2">
+	<h2 class="fw-bold mb-3">
+		<span class="heading px-2 border-primary">Company</span> employees
+	</h2>
+
+	<div
+		class="col-12 d-flex flex-wrap mt-2 border border-3 border-top-0 border-start-0 border-end-0"
+	>
+		<div class="mb-3 me-3 ms-lg-auto ms-md-auto ms-2">
+			<select
+				class="form-select border-secondary rounded-pill border border-3 border-top-0 border-start-0 border-end-0"
+				[(ngModel)]="searchDepartment"
+				(change)="onSearch()"
+			>
+				<option selected disabled value="">Department</option>
+				<option value="">All</option>
+				<option value="Development">Development</option>
+				<option value="Management">Management</option>
+				<option value="Design">Design</option>
+				<option value="Testing">Testing</option>
+			</select>
+		</div>
+
+		<div class="mb-3 me-3 rounded-pill">
+			<input
+				type="text"
+				class="form-control-plaintext border border-secondary border-3 border-top-0 border-start-0 border-end-0 rounded-pill px-3"
+				[(ngModel)]="searchTerm"
+				placeholder="Search..."
+				(input)="onSearch()"
+			/>
+		</div>
+		<div class="mb-3 me-3 rounded-pill">
+			<a
+				class="btn px-2 text-nowrap createTaskBtn text-decoration-none btn-outline-primary border-secondary rounded-pill border border-3 border-top-0 border-start-0 border-end-0"
+				routerLink="/add_employee"
+			>
+				<i class="bi bi-plus"></i>
+				Add employee
+			</a>
+		</div>
+	</div>
+</div>
+<div class="content py-0 mt-2">
+	<div class="container pb-5 mb-2">
+		<div class="table-responsive">
+			<table class="table custom-table shadow">
+				<thead
+					class="border border-secondary border-3 border-top-0 border-start-0 border-end-0"
+				>
+					<tr>
+						<th class="col">S.No</th>
+						<th scope="col">Employee ID</th>
+						<th scope="col">Employee</th>
+						<th scope="col">Email</th>
+						<th scope="col">DOB</th>
+						<th scope="col">Gender</th>
+						<th scope="col">Department</th>
+						<th scope="col">Contact</th>
+					</tr>
+				</thead>
+				<tbody>
+					@for(employee of employees;track $index){
+					<tr (click)="viewEmployee(employee.id)">
+						<td>{{ $index + 1 }}</td>
+
+						<td>Employee-0{{ employee.id }}</td>
+						<td>
+							<img
+								[src]="imagePath + employee.employee_image"
+								alt="Employee Image"
+								class="rounded-circle employee_image"
+							/>
+							{{ employee.fullname }}
+						</td>
+						<td>{{ employee.email }}</td>
+						<td>{{ employee.date_of_birth | date }}</td>
+						<td>{{ employee.gender }}</td>
+						<td>
+							@if(employee.department_id==1){
+							<span class="badgeForDevelopment badge">{{
+								employee.department.department_name
+							}}</span>
+							} @if(employee.department_id==2){
+							<span class="badgeForDesign badge">{{
+								employee.department.department_name
+							}}</span>
+							} @if(employee.department_id==3){
+							<span class="badgeForManagement badge">{{
+								employee.department.department_name
+							}}</span>
+							} @if(employee.department_id==4){
+							<span class="badgeForTesting badge">{{
+								employee.department.department_name
+							}}</span>
+							}
+						</td>
+						<td>{{ employee.contact_number }}</td>
+					</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div class="position-fixed bottom-0 w-100 bg-white">
+	<div class="d-flex flex-column justify-content-center align-items-center">
+		<p>
+			Page {{ paginationInfo.current_page }} of
+			{{ paginationInfo.total_pages }}
+		</p>
+	</div>
+	<div class="pagination">
+		<button
+			class="arrow btn"
+			id="prevPage"
+			[class.disabled]="paginationInfo.current_page === 1"
+			(click)="changePage(paginationInfo.current_page - 1)"
+		>
+			←
+			<span
+				class="nav-text"
+				[class.disabled]="paginationInfo.current_page === 1"
+				>PREV</span
+			>
+		</button>
+
+		<button
+			class="arrow btn"
+			id="nextPage"
+			[class.disabled]="
+				paginationInfo.current_page === paginationInfo.total_pages
+			"
+			(click)="changePage(paginationInfo.current_page + 1)"
+		>
+			<span
+				class="nav-text"
+				[class.disabled]="
+					paginationInfo.current_page === paginationInfo.total_pages
+				"
+				>NEXT</span
+			>
+			→
+		</button>
+	</div>
+</div>
+}

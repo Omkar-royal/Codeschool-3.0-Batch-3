@@ -1,0 +1,226 @@
+@if(!loader){
+<div
+	class="position-absolute loader vh-100 d-flex justify-content-center align-items-center top-0 bottom-0 start-0 end-0"
+>
+	<div class="spinner-border text-primary" role="status">
+		<span class="visually-hidden">Loading...</span>
+	</div>
+</div>
+} @else{
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<div class="d-flex flex-column shadow py-4 px-4">
+				<h4 class="fw-bold fs-4">
+					<span class="heading"> Employee </span> Details
+				</h4>
+				<div
+					class="d-flex w-100 justify-content-lg-start justify-content-center gap-5 px-lg-5 px-3 py-5 align-items-center flex-lg-row flex-column"
+				>
+					<div>
+						<img
+							[src]="imagePath + employee.employee_image"
+							alt="Employee image"
+							class="rounded-circle border border-2 img-thumbnail object-fit-cover"
+						/>
+					</div>
+					<div class="">
+						<table class="d-none d-lg-block d-md-block">
+							<tr>
+								<td class="fw-medium">Employee Name:</td>
+								<td class="ps-3 fw-medium">
+									{{ employee.fullname }}
+								</td>
+							</tr>
+							<tr>
+								<td class="fw-medium">Employee Id:</td>
+								<td class="ps-3 fw-medium">
+									<small> Employee-0{{ employee.id }} </small>
+								</td>
+							</tr>
+							<tr>
+								<td class="fw-medium">Employee Email:</td>
+								<td class="ps-3 fw-medium">
+									{{ employee.email }}
+								</td>
+							</tr>
+							<tr>
+								<td class="fw-medium">Employee Contact:</td>
+								<td class="ps-3 fw-medium">
+									{{ employee.contact_number }}
+								</td>
+							</tr>
+							<tr>
+								<td class="fw-medium">Employee Department:</td>
+								<td class="ps-3 fw-medium">
+									{{ employee?.department.department_name }}
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div class="d-block d-lg-none d-md-none">
+						<h6>
+							Employee Name:
+							<span> {{ employee.fullname }} </span>
+						</h6>
+						<h6>
+							Employee ID:
+							<span> Employee-0{{ employee.id }} </span>
+						</h6>
+						<h6>
+							Employee Email: <span> {{ employee.email }} </span>
+						</h6>
+						<h6>
+							Employee Contact:
+							<span> {{ employee.contact_number }} </span>
+						</h6>
+						<h6>
+							Employee Department:
+							<span>
+								{{ employee.department.department_name }}
+							</span>
+						</h6>
+					</div>
+				</div>
+				<h4 class="fs-4 fw-bold">
+					<span class="heading">Salary</span>
+					Details
+				</h4>
+				<div class="table-responsive">
+					<table class="table custom-table shadow">
+						<thead
+							class="border border-secondary border-3 border-top-0 border-start-0 border-end-0"
+						>
+							<tr>
+								<th class="col">S.No</th>
+								<th scope="col">Basic salary</th>
+								<th scope="col">Total earnings</th>
+								<th scope="col">Total deductions</th>
+								<th scope="col">Net salary</th>
+								<th scope="col">Salary date</th>
+							</tr>
+						</thead>
+						<tbody>
+							@for(salary of salaries;track $index){
+							<tr>
+								<td>{{ $index + 1 }}</td>
+
+								<td>{{ salary.base_salary }}</td>
+								<td>{{ salary.total_earnings }}</td>
+								<td>
+									{{ salary.total_deductions }}
+								</td>
+								<td>{{ salary.net_salary }}</td>
+								<td>
+									{{ salary.date_of_salary | date }}
+								</td>
+								<td>
+									<button
+										type="button"
+										class="btn btn-outline-primary"
+										data-bs-toggle="modal"
+										data-bs-target="#staticBackdrop"
+										(click)="viewPayslip($index)"
+									>
+										View payslip
+									</button>
+								</td>
+							</tr>
+							}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Button trigger modal -->
+
+<!-- Modal -->
+<div
+	class="modal fade"
+	id="staticBackdrop"
+	data-bs-backdrop="static"
+	data-bs-keyboard="false"
+	tabindex="-1"
+	aria-labelledby="staticBackdropLabel"
+	aria-hidden="true"
+>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title text-success" id="staticBackdropLabel">
+					Employee salary payslip
+				</h5>
+				<button
+					type="button"
+					class="btn-close"
+					data-bs-dismiss="modal"
+					aria-label="Close"
+				></button>
+			</div>
+			<div class="modal-body">
+				<table>
+					<span class="fs-6 fw-bold">Earnings:</span>
+					<tr>
+						<td>Basic salary</td>
+						<td>
+							{{ paySlip.base_salary }}
+						</td>
+					</tr>
+					@for(earning of earnings;track $index){
+					@if(paySlip.id==earning.salary_id){
+					<tr>
+						@if(earning.earning_id==1){
+						<td>Overtime Pay :</td>
+						} @if (earning.earning_id==2) {
+						<td>Bonus :</td>
+						} @if (earning.earning_id==3) {
+						<td>Allowances :</td>
+						}
+						<td>{{ earning.amount }}</td>
+					</tr>
+					} }
+					<tr>
+						<td class="fw-medium">Total earnings</td>
+						<td>
+							{{ paySlip.total_earnings }}
+						</td>
+					</tr>
+					<span class="fs-6 fw-bold">Deductions:</span>
+
+					@for(deduction of deductions;track $index){
+					@if(paySlip.id==deduction.salary_id){
+					<tr>
+						@if(deduction.deduction_id==1){
+						<td>Income Tax :</td>
+						} @else if (deduction.deduction_id==2) {
+						<td>Security Tax :</td>
+						} @else if (deduction.deduction_id==3) {
+						<td>Health Insurance Premiums :</td>
+						} @else if (deduction.deduction_id==4) {
+						<td>Provident Fund :</td>
+						} @else if (deduction.deduction_id==5) {
+						<td>Loan Repayments :</td>
+						}
+						<td>{{ deduction.amount }}</td>
+					</tr>
+					} }
+					<tr>
+						<td class="fw-medium">Total deductions</td>
+						<td>
+							{{ paySlip.total_deductions }}
+						</td>
+					</tr>
+					<tr>
+						<td class="fw-bold">Net payable amount :</td>
+						<td>
+							<b>{{ paySlip.net_salary }}</b>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+}

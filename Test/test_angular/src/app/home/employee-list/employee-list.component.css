@@ -1,0 +1,109 @@
+.heading {
+	border-bottom: solid 5px #1235e6;
+	border-bottom-left-radius: 10px;
+	/* background-color: #0069d93f; */
+}
+
+.pagination {
+	text-align: center;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.pages {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.page-number {
+	cursor: pointer;
+	background-color: white;
+	color: #999;
+	border-radius: 50%;
+	height: 30px;
+	width: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: 0.4s ease;
+}
+
+.active {
+	font-size: 1.3em;
+	height: 40px;
+	width: 40px;
+	background-color: #1235e6;
+	color: white;
+}
+
+button {
+	width: 120px;
+	padding: 8px 16px;
+	background-color: #ffffff00;
+	color: #1235e6;
+	border: none;
+	cursor: pointer;
+	margin: 0 5px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+button:hover {
+	color: #8a4ea3;
+}
+.createTaskBtn:hover {
+	color: white !important;
+}
+button:disabled {
+	background-color: #ffffff00;
+	color: #ccc;
+	cursor: not-allowed;
+}
+
+#prevPage {
+	margin-right: 20px;
+}
+
+#nextPage {
+	margin-left: 20px;
+}
+
+.arrow {
+	font-size: 1.2em;
+}
+
+.nav-text {
+	font-size: 0.7em;
+	letter-spacing: 0.3em;
+}
+
+.badgeForDevelopment {
+	background-color: #f6e1a2 !important;
+	color: #755800 !important;
+}
+.badgeForDesign {
+	background-color: #8fb2fa !important;
+	color: #011439 !important;
+}
+.badgeForTesting {
+	background-color: #c194ec !important;
+	color: #37016b !important;
+}
+.badgeForManagement {
+	background-color: #a0e38e !important;
+	color: #209401 !important;
+}
+
+.employee_image {
+	width: 30px;
+	height: 30px;
+	object-fit: cover;
+}
+
+.btn:hover {
+	color: black;
+}

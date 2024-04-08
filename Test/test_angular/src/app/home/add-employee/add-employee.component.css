@@ -1,0 +1,21 @@
+.profile_upload {
+	width: 150px;
+	height: 150px;
+	border: 2px solid black;
+	border-radius: 50%;
+	position: relative;
+	overflow: hidden;
+}
+.heading {
+	border-bottom: solid 5px #1235e6;
+	border-bottom-left-radius: 10px;
+}
+.edit {
+	position: absolute;
+	top: 70%;
+	bottom: 0;
+	z-index: 1;
+	left: 0;
+	right: 0;
+	background-color: rgba(0, 0, 0, 0.414);
+}

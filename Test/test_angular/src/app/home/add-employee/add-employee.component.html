@@ -1,0 +1,303 @@
+<div class="container-fluid">
+	<div class="row justify-content-center align-content-center">
+		<div
+			class="col-12 col-lg-6 col-md-10 justify-content-center align-items-center"
+		>
+			<form
+				action=""
+				class="card shadow py-5 px-lg-5 px-md-5 px-3"
+				[formGroup]="form"
+				(onSubmit)="addEmployee()"
+			>
+				<h3 class="fs-3 fw-bold">
+					<span class="heading">New</span> Employee Details
+				</h3>
+
+				<div class="d-flex flex-column mt-5">
+					<div class="d-flex justify-content-center">
+						<div class="profile_upload position-relative">
+							<img
+								[src]="imageUrl"
+								width="150"
+								height="150"
+								class="object-fit-cover"
+								alt="profile"
+							/>
+							<div
+								class="d-flex edit justify-content-center align-items-center"
+							>
+								<label for="employee_image">
+									<i class="bi bi-camera fs-1 text-white"></i>
+								</label>
+							</div>
+							<input
+								type="file"
+								name="file"
+								class="d-none"
+								id="employee_image"
+								formControlName="employee_image"
+								(change)="onFileSelected($event)"
+							/>
+
+							<small
+								class="text-start text-danger"
+								[innerHTML]="imageError"
+							></small>
+						</div>
+						<span
+							class="text-danger"
+							*ngIf="
+								validate.isFieldInvalid(
+									'employee_image',
+									form,
+									isFormSubmitted
+								)
+							"
+						>
+							{{
+								validate.getErrorMessage(
+									form,
+									"employee_image",
+									"Employee image"
+								)
+							}}
+						</span>
+						<span
+							class="text-danger"
+							[innerHTML]="profileErrorMessage"
+						></span>
+					</div>
+
+					<div class="form-floating mt-4">
+						<input
+							type="text"
+							class="form-control"
+							id="fullname"
+							placeholder="Enter your fullname"
+							required
+							minlength="3"
+							maxlength="25"
+							formControlName="fullname"
+						/>
+						<label for="fullname">Fullname</label>
+					</div>
+					<span
+						class="text-danger"
+						*ngIf="
+							validate.isFieldInvalid(
+								'fullname',
+								form,
+								isFormSubmitted
+							)
+						"
+					>
+						{{
+							validate.getErrorMessage(
+								form,
+								"fullname",
+								"Fullname"
+							)
+						}}
+					</span>
+					<div class="form-floating mt-2">
+						<input
+							type="email"
+							class="form-control"
+							id="email"
+							placeholder="Enter your email"
+							required
+							formControlName="email"
+						/>
+						<label for="input1">Email address</label>
+					</div>
+					<span
+						class="text-danger"
+						*ngIf="
+							validate.isFieldInvalid(
+								'email',
+								form,
+								isFormSubmitted
+							)
+						"
+					>
+						{{ validate.getErrorMessage(form, "email", "Email") }}
+					</span>
+					<span class="text-danger">{{ emailError }}</span>
+					<div class="form-floating mt-2">
+						<input
+							type="date"
+							class="form-control"
+							id="date_of_birth"
+							placeholder="Enter your date of birth"
+							formControlName="date_of_birth"
+						/>
+						<label for="input1">Date of birth </label>
+					</div>
+					<span
+						class="text-danger"
+						*ngIf="
+							validate.isFieldInvalid(
+								'date_of_birth',
+								form,
+								isFormSubmitted
+							)
+						"
+					>
+						{{
+							validate.getErrorMessage(
+								form,
+								"date_of_birth",
+								"Date of birth"
+							)
+						}}
+					</span>
+					<label for="gender" class="mt-2">Gender:</label>
+					<div class="mt-2 d-flex justify-content-around flex-nowrap">
+						<div class="form-check">
+							<input
+								class="form-check-input"
+								type="radio"
+								name="gender"
+								value="Male"
+								formControlName="gender"
+							/>
+							<label class="form-check-label" for="gender">
+								Male
+							</label>
+						</div>
+						<div class="form-check">
+							<input
+								class="form-check-input"
+								type="radio"
+								value="Female"
+								name="gender"
+								formControlName="gender"
+							/>
+							<label class="form-check-label" for="gender">
+								Female
+							</label>
+						</div>
+					</div>
+					<span
+						class="text-danger"
+						*ngIf="
+							validate.isFieldInvalid(
+								'gender',
+								form,
+								isFormSubmitted
+							)
+						"
+					>
+						{{ validate.getErrorMessage(form, "gender", "Gender") }}
+					</span>
+					<div class="form-floating mt-2">
+						<input
+							type="text"
+							class="form-control"
+							id="contact"
+							placeholder="Enter your contact number"
+							formControlName="contact_number"
+							required
+							pattern
+							maxlength="10"
+							minlength="10"
+						/>
+						<label for="contact">Contact Number</label>
+					</div>
+					<span
+						class="text-danger"
+						*ngIf="
+							validate.isFieldInvalid(
+								'contact_number',
+								form,
+								isFormSubmitted
+							)
+						"
+					>
+						{{
+							validate.getErrorMessage(
+								form,
+								"contact_number",
+								"Contact number"
+							)
+						}}
+					</span>
+					<div class="mt-2">
+						<label for="input1">Department : </label>
+
+						<select
+							class="form-select"
+							required
+							formControlName="department_id"
+						>
+							<option selected disabled value="0">
+								Select department
+							</option>
+							<option value="1">Development</option>
+							<option value="2">Design</option>
+							<option value="3">Management</option>
+							<option value="4">Testing</option>
+						</select>
+						<span
+							class="text-danger"
+							*ngIf="
+								validate.isFieldInvalid(
+									'department_id',
+									form,
+									isFormSubmitted
+								)
+							"
+						>
+							{{
+								validate.getErrorMessage(
+									form,
+									"department_id",
+									"Department "
+								)
+							}}
+						</span>
+					</div>
+
+					<div class="mt-2">
+						<label for="input1">Address:</label>
+
+						<textarea
+							name=""
+							classform-control=""
+							cols="30"
+							rows="5"
+							class="form-control"
+							id="address"
+							placeholder="Enter your address"
+							formControlName="address"
+							required
+						></textarea>
+					</div>
+					<span
+						class="text-danger"
+						*ngIf="
+							validate.isFieldInvalid(
+								'address',
+								form,
+								isFormSubmitted
+							)
+						"
+					>
+						{{
+							validate.getErrorMessage(
+								form,
+								"address",
+								"Address "
+							)
+						}}
+					</span>
+				</div>
+				<div class="text-center mt-3">
+					<button class="btn btn-primary" (click)="addEmployee()">
+						Add Employee
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

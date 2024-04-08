@@ -1,0 +1,51 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<div class="container-fluid">
+		<a
+			class="navbar-brand"
+			href="/employees_list"
+			class="fw-bold fs-lg-3 fs-4 text-dark"
+			>Employee Management</a
+		>
+		<button
+			class="navbar-toggler"
+			type="button"
+			data-bs-toggle="collapse"
+			data-bs-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent"
+			aria-expanded="false"
+			aria-label="Toggle navigation"
+		>
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="ms-auto navbar-nav me-3 mb-2 mb-lg-0">
+				<ul class="navbar-nav ms-lg-auto me-auto mb-2 mb-lg-0">
+					@for(item of menuItems; track $index){
+					<li class="nav-item">
+						<a
+							class="nav-link"
+							[routerLink]="'/' + item.link"
+							routerLinkActive="active"
+							>{{ item.label }}</a
+						>
+					</li>
+					} @empty { } @if(signOutBtnVisibility){
+					<div class="d-flex align-items-center px-lg-3 mb-2 mb-lg-0">
+						<h6 class="fs-6 ms-lg-2 mb-0 text-black fw-medium">
+							{{ username }}
+						</h6>
+					</div>
+					<div>
+						<button
+							class="btn rounded-pill btn-outline-danger"
+							(click)="signOut()"
+						>
+							Sign Out
+						</button>
+					</div>
+					}
+				</ul>
+			</ul>
+		</div>
+	</div>
+</nav>

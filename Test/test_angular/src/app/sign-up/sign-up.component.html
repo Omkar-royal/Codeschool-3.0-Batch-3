@@ -1,0 +1,96 @@
+<app-header></app-header>
+<div class="container-fluid">
+	<div class="row vh-100 justify-content-center align-content-center">
+		<div
+			class="col-12 col-lg-3 col-md-6 justify-content-center align-items-center"
+		>
+			<form
+				action=""
+				class="card shadow py-3 px-3"
+				[formGroup]="form"
+				(onSubmit)="signUp()"
+			>
+				<h3 class="fs-3 fw-medium text-center">Signup</h3>
+
+				<div class="d-flex flex-column">
+					<div class="form-floating mb-3">
+						<input
+							type="text"
+							class="form-control"
+							id="username"
+							placeholder="Enter your username"
+							required
+							minlength="3"
+							maxlength="25"
+							formControlName="username"
+						/>
+						<label for="username">Username</label>
+					</div>
+					<span
+						*ngIf="
+							validate.isFieldInvalid(
+								'username',
+								form,
+								isFormSubmitted
+							)
+						"
+					></span>
+					<span class="text-danger">
+						{{
+							validate.getErrorMessage(
+								form,
+								"username",
+								"Username"
+							)
+						}}
+					</span>
+
+					<div class="form-floating mb-3">
+						<input
+							type="password"
+							class="form-control"
+							id="password"
+							placeholder="Enter your password"
+							required
+							minlength="8"
+							maxlength="16"
+							formControlName="password"
+						/>
+						<label for="full_name">Password</label>
+					</div>
+					<span
+						*ngIf="
+							validate.isFieldInvalid(
+								'password',
+								form,
+								isFormSubmitted
+							)
+						"
+					></span>
+					<span class="text-danger">
+						{{
+							validate.getErrorMessage(
+								form,
+								"password",
+								"Password"
+							)
+						}}
+					</span>
+					<button class="btn btn-primary" (click)="signUp()">
+						Sign up
+					</button>
+					<p class="my-2">
+						Already have an account?
+						<span>
+							<a
+								routerLink="/sign_in"
+								class="text-decoration-none"
+								>Sign in here</a
+							>
+						</span>
+					</p>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
